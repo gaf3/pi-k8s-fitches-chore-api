@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chore-api
+  namespace: fitches
+  labels:
+    app: chore-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: chore-api
+  template:
+    metadata:
+      labels:
+        app: chore-api
+    spec:
+      containers:
+      - name: rest
+        image: docker.io/gaf3/pi-k8s-fitches-chore-api:0.1
+        imagePullPolicy: Always
+        env:
+          - name: REDIS_HOST
+            value: redis.fitches.svc.cluster.local
+          - name: REDIS_PORT
+            value: "6379"
+          - name: REDIS_CHANNEL
+            value: speech
+        volumeMounts:
+        - name: config
+          mountPath: /etc/pi-k8s
+        ports:
+        - containerPort: 6765
+        readinessProbe:
+          initialDelaySeconds: 5
+          httpGet:
+            path: /health
+            port: 6765
+        livenessProbe:
+          initialDelaySeconds: 2
+          periodSeconds: 5
+          httpGet:
+            path: /health
+            port: 6765
+      volumes:
+        - name: config
+          configMap:
+            name: chore-api
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: chore-api
+  namespace: fitches
+spec:
+  selector:
+    app: chore-api
+  ports:
+  - protocol: TCP
+    port: 6765
+    targetPort: 6765

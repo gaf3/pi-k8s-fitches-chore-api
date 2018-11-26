@@ -1,0 +1,120 @@
+swagger: '2.0'
+info:
+  title: Pi K8s Fitches Speech API
+  version: "0.1"
+consumes:
+  - application/json
+produces:
+- application/json
+paths:
+  /health:
+    get:
+      operationId: service.health
+      tags: [Health]
+      summary: Health check
+      responses:
+        200:
+          description: We're good
+  /chore:
+    post:
+      operationId: service.chore_create
+      tags: [Chore]
+      summary: Creates a Chore
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: chore
+          description: The message playload
+          schema:
+            type: object
+            required:
+              - template
+              - name
+              - node
+            properties:
+              template:
+                type: string
+                description: The template to create the chore from
+              name:
+                type: string
+                description: The name of the person assigned to the chore
+              node:
+                type: string
+                description: The node to handle the chore
+      responses:
+        201:
+          description: Chore created
+    get:
+      operationId: service.chore_list
+      tags: [Chore]
+      summary: List Chores
+      responses:
+        200:
+          description: We're good
+  /chore/{node}:
+    get:
+      operationId: service.chore_retrieve
+      tags: [Chore]
+      summary: Retrieve Chore
+      parameters:
+        - in: path
+          required: true
+          name: node
+          type: string
+          description: The node of the chore to retrieve
+      responses:
+        200:
+          description: We're good
+  /chore/{node}/next:
+    post:
+      operationId: service.task_next
+      tags: [Chore]
+      summary: Completes the current chore task and goes onto the next
+      parameters:
+        - in: path
+          required: true
+          name: node
+          type: string
+          description: The node of the chore to forward
+      responses:
+        202:
+          description: We're good
+  /chore/{node}/task/{index}/complete:
+    post:
+      operationId: service.task_complete
+      tags: [Chore]
+      summary: Completes the specified chore task and goes onto the next
+      parameters:
+        - in: path
+          required: true
+          name: node
+          type: string
+          description: The node of the chore to change
+        - in: path
+          required: true
+          name: index
+          type: integer
+          description: The index of the task to complete
+      responses:
+        202:
+          description: We're good
+  /chore/{node}/task/{index}/incomplete:
+    post:
+      operationId: service.task_incomplete
+      tags: [Chore]
+      summary: Incompletes the specified chore task and goes onto the next
+      parameters:
+        - in: path
+          required: true
+          name: node
+          type: string
+          description: The node of the chore to change
+        - in: path
+          required: true
+          name: index
+          type: integer
+          description: The index of the task to incomplete
+      responses:
+        202:
+          description: We're good

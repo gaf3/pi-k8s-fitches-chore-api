@@ -1,0 +1,80 @@
+[
+    {
+        "text": "get ready for school",
+        "language": "en-au",
+        "tasks": [
+            {
+                "text": "get out of bed",
+                "interval": 15
+            },
+            {
+                "text": "get dressed",
+                "interval": 60
+            },
+            {
+                "text": "brush your teeth",
+                "interval": 60
+            },
+            {
+                "text": "put on your boots, coat, and hat",
+                "interval": 60
+            }
+        ]
+    },
+    {
+        "text": "clean your room",
+        "language": "en-au",
+        "tasks": [
+            {
+                "text": "put your blankets and pillows on the bed",
+                "interval": 60
+            },
+            {
+                "text": "put your dirty clothes in the hamper",
+                "interval": 60
+            },
+            {
+                "text": "put away your books",
+                "interval": 60
+            },
+            {
+                "text": "put away your toys",
+                "interval": 60
+            },
+            {
+                "text": "throw away the trash",
+                "interval": 60
+            },
+            {
+                "text": "sweep the floor",
+                "interval": 120
+            },
+            {
+                "text": "make the bed",
+                "interval": 60
+            }
+        ]
+    },
+    {
+        "text": "get ready for bed",
+        "language": "en-au",
+        "tasks": [
+            {
+                "text": "put on pajamas",
+                "interval": 60
+            },
+            {
+                "text": "brush your teeth",
+                "interval": 60
+            },
+            {
+                "text": "read a story",
+                "interval": 300
+            },
+            {
+                "text": "get in bed",
+                "interval": 15
+            }
+        ]
+    }
+]
