@@ -1,6 +1,6 @@
 [
     {
-        "text": "get ready for school",
+        "text": "get ready for school, boy",
         "language": "en-au",
         "tasks": [
             {
@@ -13,7 +13,33 @@
             },
             {
                 "text": "brush your teeth",
+                "interval": 120
+            },
+            {
+                "text": "put on your boots, coat, and hat",
                 "interval": 60
+            }
+        ]
+    },
+    {
+        "text": "get ready for school, girl",
+        "language": "en-au",
+        "tasks": [
+            {
+                "text": "get out of bed",
+                "interval": 15
+            },
+            {
+                "text": "get dressed",
+                "interval": 60
+            },
+            {
+                "text": "brush your teeth",
+                "interval": 120
+            },            
+            {
+                "text": "brush your hair",
+                "interval": 120
             },
             {
                 "text": "put on your boots, coat, and hat",

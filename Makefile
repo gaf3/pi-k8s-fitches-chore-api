@@ -26,7 +26,7 @@ push: build
 	docker push $(ACCOUNT)/$(IMAGE):$(VERSION)
 
 config:
-	kubectl create configmap -n fitches chore-api --dry-run --from-file=templates.json -o yaml | kubectl apply -f -
+	kubectl create configmap -n fitches chore-api --dry-run --from-file=templates.json --from-file=settings.json -o yaml | kubectl apply -f -
 
 create:
 	kubectl create -f k8s/pi-k8s.yaml
