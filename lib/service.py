@@ -25,6 +25,11 @@ def health():
 
     return {"message": "OK"}
 
+def setting_load():
+
+    with open("/etc/pi-k8s/settings.json", "r") as settings_file:
+        return json.load(settings_file)
+
 def template_load():
 
     with open("/etc/pi-k8s/templates.json", "r") as templates_file:
@@ -37,6 +42,14 @@ def template_find(text):
             return template
 
     return None
+
+def setting_list():
+
+    return {"settings": setting_load()}
+
+def template_list():
+
+    return {"templates": template_load()}
 
 def chore_create():
 

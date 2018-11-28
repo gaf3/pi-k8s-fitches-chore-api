@@ -75,6 +75,22 @@ class TestService(unittest.TestCase):
 
         self.assertEqual(self.api.get("/health").json, {"message": "OK"})
 
+    def test_setting_load(self):
+
+        self.assertEqual(service.setting_load(), {
+            "node": [
+                "pi-k8s-timmy",
+                "pi-k8s-sally"
+            ],
+            "person": [
+                "Timmy",
+                "Sally"
+            ],
+            "language": [
+                "en"
+            ]
+        })
+
     def test_template_load(self):
 
         self.assertEqual(service.template_load(), [
@@ -97,62 +113,6 @@ class TestService(unittest.TestCase):
                     {
                         "text": "put on your boots, coat, and hat",
                         "interval": 60
-                    }
-                ]
-            },
-            {
-                "text": "clean your room",
-                "language": "en-au",
-                "tasks": [
-                    {
-                        "text": "put your blankets and pillows on the bed",
-                        "interval": 60
-                    },
-                    {
-                        "text": "put your dirty clothes in the hamper",
-                        "interval": 60
-                    },
-                    {
-                        "text": "put away your books",
-                        "interval": 60
-                    },
-                    {
-                        "text": "put away your toys",
-                        "interval": 60
-                    },
-                    {
-                        "text": "throw away the trash",
-                        "interval": 60
-                    },
-                    {
-                        "text": "sweep the floor",
-                        "interval": 120
-                    },
-                    {
-                        "text": "make the bed",
-                        "interval": 60
-                    }
-                ]
-            },
-            {
-                "text": "get ready for bed",
-                "language": "en-au",
-                "tasks": [
-                    {
-                        "text": "put on pajamas",
-                        "interval": 60
-                    },
-                    {
-                        "text": "brush your teeth",
-                        "interval": 60
-                    },
-                    {
-                        "text": "read a story",
-                        "interval": 300
-                    },
-                    {
-                        "text": "get in bed",
-                        "interval": 15
                     }
                 ]
             }
@@ -184,6 +144,57 @@ class TestService(unittest.TestCase):
         })
 
         self.assertIsNone(service.template_find("watch tv"))
+
+    def test_setting_list(self):
+
+        response = self.api.get("/setting")
+
+        self.assertEqual(response.json, {
+            "settings": {
+                "node": [
+                    "pi-k8s-timmy",
+                    "pi-k8s-sally"
+                ],
+                "person": [
+                    "Timmy",
+                    "Sally"
+                ],
+                "language": [
+                    "en"
+                ]
+            }
+        })
+        self.assertEqual(response.status_code, 200)
+
+    def test_template_list(self):
+
+        response = self.api.get("/template")
+
+        self.assertEqual(response.json, {
+                "templates": [{
+                "text": "get ready for school",
+                "language": "en-au",
+                "tasks": [
+                    {
+                        "text": "get out of bed",
+                        "interval": 15
+                    },
+                    {
+                        "text": "get dressed",
+                        "interval": 60
+                    },
+                    {
+                        "text": "brush your teeth",
+                        "interval": 60
+                    },
+                    {
+                        "text": "put on your boots, coat, and hat",
+                        "interval": 60
+                    }
+                ]
+            }]
+        })
+        self.assertEqual(response.status_code, 200)
 
     def test_chore_create(self):
 

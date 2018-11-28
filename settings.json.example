@@ -1,5 +1,13 @@
 {
-    "node": [],
-    "person": [],
-    "language": []
+    "node": [
+        "pi-k8s-timmy",
+        "pi-k8s-sally"
+    ],
+    "person": [
+        "Timmy",
+        "Sally"
+    ],
+    "language": [
+        "en"
+    ]
 }

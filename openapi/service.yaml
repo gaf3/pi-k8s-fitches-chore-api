@@ -15,6 +15,22 @@ paths:
       responses:
         200:
           description: We're good
+  /setting:
+    get:
+      operationId: service.setting_list
+      tags: [Chore]
+      summary: Settings for dealing with Chores
+      responses:
+        200:
+          description: We're good
+  /template:
+    get:
+      operationId: service.template_list
+      tags: [Chore]
+      summary: List Chore Templates
+      responses:
+        200:
+          description: We're good
   /chore:
     post:
       operationId: service.chore_create
