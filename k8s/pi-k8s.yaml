@@ -55,6 +55,7 @@ metadata:
 spec:
   selector:
     app: chore-api
+  type: NodePort
   ports:
   - protocol: TCP
     port: 6765
