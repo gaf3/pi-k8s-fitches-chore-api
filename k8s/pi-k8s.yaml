@@ -60,3 +60,4 @@ spec:
   - protocol: TCP
     port: 6765
     targetPort: 6765
+    nodePort: 30000
