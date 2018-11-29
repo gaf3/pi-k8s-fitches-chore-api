@@ -33,12 +33,17 @@ def setting_load():
 def template_load():
 
     with open("/etc/pi-k8s/templates.json", "r") as templates_file:
-        return json.load(templates_file)
+        templates = json.load(templates_file)
 
-def template_find(text):
+    for index, template in enumerate(templates):
+        template["id"] = index
+
+    return templates
+
+def template_find(template_id):
 
     for template in template_load():
-        if text == template["text"]:
+        if template_id == template["id"]:
             return template
 
     return None
@@ -55,7 +60,7 @@ def chore_create():
 
     chore = apx.chore_redis.create(
        template_find(connexion.request.json["template"]),
-       connexion.request.json["name"],
+       connexion.request.json["person"],
        connexion.request.json["node"] 
     )
 
@@ -65,24 +70,24 @@ def chore_list():
 
     return {"chores": apx.chore_redis.list()}
 
-def chore_retrieve(node):
+def chore_retrieve(chore_id):
 
-    return {"chore": apx.chore_redis.get(node)}
+    return {"chore": apx.chore_redis.get(chore_id)}
 
-def task_next(node):
+def task_next(chore_id):
 
-    chore = apx.chore_redis.get(node)
+    chore = apx.chore_redis.get(chore_id)
 
     return {"changed": apx.chore_redis.next(chore), "chore": chore}, 202
 
-def task_complete(node, index):
+def task_complete(chore_id, task_id):
 
-    chore = apx.chore_redis.get(node)
+    chore = apx.chore_redis.get(chore_id)
 
-    return {"changed": apx.chore_redis.complete(chore, index), "chore": chore}, 202
+    return {"changed": apx.chore_redis.complete(chore, task_id), "chore": chore}, 202
 
-def task_incomplete(node, index):
+def task_incomplete(chore_id, task_id):
 
-    chore = apx.chore_redis.get(node)
+    chore = apx.chore_redis.get(chore_id)
 
-    return {"changed": apx.chore_redis.incomplete(chore, index), "chore": chore}, 202
+    return {"changed": apx.chore_redis.incomplete(chore, task_id), "chore": chore}, 202

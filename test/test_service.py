@@ -25,13 +25,17 @@ class MockChoreRedis(object):
 
         return None
 
-    def create(self, template, name, node):
+    def create(self, template, person, node):
 
         chore = copy.deepcopy(template)
         chore.update({
-            "name": name,
+            "id": node,
+            "person": person,
             "node": node
         })
+
+        for index, task in enumerate(chore["tasks"]):
+            task["id"] = index
 
         self.chores[node] = chore
 
@@ -95,6 +99,7 @@ class TestService(unittest.TestCase):
 
         self.assertEqual(service.template_load(), [
             {
+                "id": 0,
                 "text": "get ready for school",
                 "language": "en-au",
                 "tasks": [
@@ -120,7 +125,8 @@ class TestService(unittest.TestCase):
 
     def test_template_find(self):
 
-        self.assertEqual(service.template_find("get ready for school"), {
+        self.assertEqual(service.template_find(0), {
+            "id": 0,
             "text": "get ready for school",
             "language": "en-au",
             "tasks": [
@@ -171,7 +177,8 @@ class TestService(unittest.TestCase):
         response = self.api.get("/template")
 
         self.assertEqual(response.json, {
-                "templates": [{
+            "templates": [{
+                "id": 0,
                 "text": "get ready for school",
                 "language": "en-au",
                 "tasks": [
@@ -199,31 +206,36 @@ class TestService(unittest.TestCase):
     def test_chore_create(self):
 
         response = self.api.post("/chore", json={
-            "template": "get ready for school",
-            "name": "dude",
+            "template": 0,
+            "person": "dude",
             "node": "bump"
         })
 
         self.assertEqual(response.json, {
             "chore": {
-                "name": "dude",
+                "id": "bump",
+                "person": "dude",
                 "node": "bump",
                 "text": "get ready for school",
                 "language": "en-au",
                 "tasks": [
                     {
+                        "id": 0,
                         "text": "get out of bed",
                         "interval": 15
                     },
                     {
+                        "id": 1,
                         "text": "get dressed",
                         "interval": 60
                     },
                     {
+                        "id": 2,
                         "text": "brush your teeth",
                         "interval": 60
                     },
                     {
+                        "id": 3,
                         "text": "put on your boots, coat, and hat",
                         "interval": 60
                     }
@@ -234,24 +246,29 @@ class TestService(unittest.TestCase):
 
         self.assertEqual(self.apx.chore_redis.chores, {
             "bump":  {
-                "name": "dude",
+                "id": "bump",
+                "person": "dude",
                 "node": "bump",
                 "text": "get ready for school",
                 "language": "en-au",
                 "tasks": [
                     {
+                        "id": 0,
                         "text": "get out of bed",
                         "interval": 15
                     },
                     {
+                        "id": 1,
                         "text": "get dressed",
                         "interval": 60
                     },
                     {
+                        "id": 2,
                         "text": "brush your teeth",
                         "interval": 60
                     },
                     {
+                        "id": 3,
                         "text": "put on your boots, coat, and hat",
                         "interval": 60
                     }
@@ -263,7 +280,8 @@ class TestService(unittest.TestCase):
 
         self.apx.chore_redis.chores = {
             "bump":  {
-                "name": "dude",
+                "id": "bump",
+                "person": "dude",
                 "node": "bump",
                 "text": "get ready for school"
             }
@@ -273,7 +291,8 @@ class TestService(unittest.TestCase):
 
         self.assertEqual(response.json, {
             "chores": [{
-                "name": "dude",
+                "id": "bump",
+                "person": "dude",
                 "node": "bump",
                 "text": "get ready for school"
             }]
@@ -284,7 +303,8 @@ class TestService(unittest.TestCase):
 
         self.apx.chore_redis.chores = {
             "bump":  {
-                "name": "dude",
+                "id": "bump",
+                "person": "dude",
                 "node": "bump",
                 "text": "get ready for school"
             }
@@ -294,7 +314,8 @@ class TestService(unittest.TestCase):
 
         self.assertEqual(response.json, {
             "chore": {
-                "name": "dude",
+                "id": "bump",
+                "person": "dude",
                 "node": "bump",
                 "text": "get ready for school"
             }
@@ -305,7 +326,8 @@ class TestService(unittest.TestCase):
 
         self.apx.chore_redis.chores = {
             "bump":  {
-                "name": "dude",
+                "id": "bump",
+                "person": "dude",
                 "node": "bump",
                 "text": "get ready for school"
             }
@@ -316,7 +338,8 @@ class TestService(unittest.TestCase):
         self.assertEqual(response.json, {
             "changed": True,
             "chore": {
-                "name": "dude",
+                "id": "bump",
+                "person": "dude",
                 "node": "bump",
                 "text": "get ready for school"
             }
@@ -331,7 +354,8 @@ class TestService(unittest.TestCase):
 
         self.apx.chore_redis.chores = {
             "bump":  {
-                "name": "dude",
+                "id": "bump",
+                "person": "dude",
                 "node": "bump",
                 "text": "get ready for school"
             }
@@ -342,7 +366,8 @@ class TestService(unittest.TestCase):
         self.assertEqual(response.json, {
             "changed": True,
             "chore": {
-                "name": "dude",
+                "id": "bump",
+                "person": "dude",
                 "node": "bump",
                 "text": "get ready for school"
             }
@@ -357,7 +382,8 @@ class TestService(unittest.TestCase):
 
         self.apx.chore_redis.chores = {
             "bump":  {
-                "name": "dude",
+                "id": "bump",
+                "person": "dude",
                 "node": "bump",
                 "text": "get ready for school"
             }
@@ -368,7 +394,8 @@ class TestService(unittest.TestCase):
         self.assertEqual(response.json, {
             "changed": True,
             "chore": {
-                "name": "dude",
+                "id": "bump",
+                "person": "dude",
                 "node": "bump",
                 "text": "get ready for school"
             }
