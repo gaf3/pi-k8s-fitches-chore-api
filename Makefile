@@ -1,5 +1,5 @@
 IMAGE=pi-k8s-fitches-chore-api
-VERSION=0.2
+VERSION=0.3
 ACCOUNT=gaf3
 NAMESPACE=fitches
 VOLUMES=-v ${PWD}/openapi/:/opt/pi-k8s/openapi/ -v ${PWD}/templates.json.example/:/etc/pi-k8s/templates.json -v ${PWD}/settings.json.example/:/etc/pi-k8s/settings.json -v ${PWD}/lib/:/opt/pi-k8s/lib/ -v ${PWD}/test/:/opt/pi-k8s/test/ -v ${PWD}/bin/:/opt/pi-k8s/bin/

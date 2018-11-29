@@ -46,15 +46,15 @@ paths:
             type: object
             required:
               - template
-              - name
+              - person
               - node
             properties:
               template:
+                type: integer
+                description: The id of the template to create the chore from
+              person:
                 type: string
-                description: The template to create the chore from
-              name:
-                type: string
-                description: The name of the person assigned to the chore
+                description: The person assigned to the chore
               node:
                 type: string
                 description: The node to handle the chore
@@ -68,7 +68,7 @@ paths:
       responses:
         200:
           description: We're good
-  /chore/{node}:
+  /chore/{chore_id}:
     get:
       operationId: service.chore_retrieve
       tags: [Chore]
@@ -76,13 +76,13 @@ paths:
       parameters:
         - in: path
           required: true
-          name: node
+          name: chore_id
           type: string
-          description: The node of the chore to retrieve
+          description: The id of the chore to retrieve
       responses:
         200:
           description: We're good
-  /chore/{node}/next:
+  /chore/{chore_id}/next:
     post:
       operationId: service.task_next
       tags: [Chore]
@@ -90,13 +90,13 @@ paths:
       parameters:
         - in: path
           required: true
-          name: node
+          name: chore_id
           type: string
-          description: The node of the chore to forward
+          description: The id of the chore to forward
       responses:
         202:
           description: We're good
-  /chore/{node}/task/{index}/complete:
+  /chore/{chore_id}/task/{task_id}/complete:
     post:
       operationId: service.task_complete
       tags: [Chore]
@@ -104,18 +104,18 @@ paths:
       parameters:
         - in: path
           required: true
-          name: node
+          name: chore_id
           type: string
-          description: The node of the chore to change
+          description: The id of the chore to change
         - in: path
           required: true
-          name: index
+          name: task_id
           type: integer
-          description: The index of the task to complete
+          description: The id of the task to complete
       responses:
         202:
           description: We're good
-  /chore/{node}/task/{index}/incomplete:
+  /chore/{chore_id}/task/{task_id}/incomplete:
     post:
       operationId: service.task_incomplete
       tags: [Chore]
@@ -123,14 +123,14 @@ paths:
       parameters:
         - in: path
           required: true
-          name: node
+          name: chore_id
           type: string
-          description: The node of the chore to change
+          description: The id of the chore to change
         - in: path
           required: true
-          name: index
+          name: task_id
           type: integer
-          description: The index of the task to incomplete
+          description: The id of the task to incomplete
       responses:
         202:
           description: We're good
