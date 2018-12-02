@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: rest
-        image: docker.io/gaf3/pi-k8s-fitches-chore-api:0.3-armv7l
+        image: docker.io/gaf3/pi-k8s-fitches-chore-api:0.3-x86_64
         imagePullPolicy: Always
         env:
           - name: REDIS_HOST

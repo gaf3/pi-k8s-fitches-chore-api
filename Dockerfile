@@ -1,4 +1,7 @@
-FROM resin/raspberry-pi-alpine-python:3.6.1
+ARG BASE
+FROM ${BASE}
+
+RUN apk add git
 
 COPY entry.sh /usr/bin/entry.sh
 
