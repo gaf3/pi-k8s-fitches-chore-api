@@ -1,5 +1,5 @@
 .DS_Store
 .AppleDouble
 *.pyc
-templates.json
-settings.json
+templates.yaml
+settings.yaml
