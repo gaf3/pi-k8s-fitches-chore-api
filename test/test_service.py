@@ -100,6 +100,7 @@ class TestService(unittest.TestCase):
         self.assertEqual(service.template_load(), [
             {
                 "id": 0,
+                "label": "Get Ready for School",
                 "text": "get ready for school",
                 "language": "en-au",
                 "tasks": [
@@ -127,6 +128,7 @@ class TestService(unittest.TestCase):
 
         self.assertEqual(service.template_find(0), {
             "id": 0,
+            "label": "Get Ready for School",
             "text": "get ready for school",
             "language": "en-au",
             "tasks": [
@@ -179,6 +181,7 @@ class TestService(unittest.TestCase):
         self.assertEqual(response.json, {
             "templates": [{
                 "id": 0,
+                "label": "Get Ready for School",
                 "text": "get ready for school",
                 "language": "en-au",
                 "tasks": [
@@ -216,6 +219,7 @@ class TestService(unittest.TestCase):
                 "id": "bump",
                 "person": "dude",
                 "node": "bump",
+                "label": "Get Ready for School",
                 "text": "get ready for school",
                 "language": "en-au",
                 "tasks": [
@@ -249,6 +253,7 @@ class TestService(unittest.TestCase):
                 "id": "bump",
                 "person": "dude",
                 "node": "bump",
+                "label": "Get Ready for School",
                 "text": "get ready for school",
                 "language": "en-au",
                 "tasks": [
