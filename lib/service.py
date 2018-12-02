@@ -1,4 +1,5 @@
 import os
+import yaml
 import json
 import connexion
 
@@ -27,13 +28,13 @@ def health():
 
 def setting_load():
 
-    with open("/etc/pi-k8s/settings.json", "r") as settings_file:
-        return json.load(settings_file)
+    with open("/etc/pi-k8s/settings.yaml", "r") as settings_file:
+        return yaml.load(settings_file)
 
 def template_load():
 
-    with open("/etc/pi-k8s/templates.json", "r") as templates_file:
-        templates = json.load(templates_file)
+    with open("/etc/pi-k8s/templates.yaml", "r") as templates_file:
+        templates = list(yaml.load_all(templates_file))
 
     for index, template in enumerate(templates):
         template["id"] = index
