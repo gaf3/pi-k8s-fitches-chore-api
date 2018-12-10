@@ -96,9 +96,9 @@ paths:
       responses:
         202:
           description: We're good
-  /chore/{chore_id}/task/{task_id}/complete:
+  /chore/{chore_id}/task/{task_id}/{action}:
     post:
-      operationId: service.task_complete
+      operationId: service.task_action
       tags: [Chore]
       summary: Completes the specified chore task and goes onto the next
       parameters:
@@ -112,25 +112,11 @@ paths:
           name: task_id
           type: integer
           description: The id of the task to complete
-      responses:
-        202:
-          description: We're good
-  /chore/{chore_id}/task/{task_id}/incomplete:
-    post:
-      operationId: service.task_incomplete
-      tags: [Chore]
-      summary: Incompletes the specified chore task and goes onto the next
-      parameters:
         - in: path
           required: true
-          name: chore_id
+          name: action
           type: string
-          description: The id of the chore to change
-        - in: path
-          required: true
-          name: task_id
-          type: integer
-          description: The id of the task to incomplete
+          description: The action to perform
       responses:
         202:
           description: We're good
