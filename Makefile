@@ -20,13 +20,13 @@ build:
 	docker build . --build-arg BASE=$(BASE) -t $(ACCOUNT)/$(IMAGE):$(TAG)
 
 shell:
-	docker run -it $(VOLUMES) $(VARIABLES) $(ACCOUNT)/$(IMAGE):$(TAG) sh
+	docker run -it $(VARIABLES) $(VOLUMES) $(ACCOUNT)/$(IMAGE):$(TAG) sh
 
 test:
-	docker run -it $(VOLUMES) $(VARIABLES) $(ACCOUNT)/$(IMAGE):$(TAG) sh -c "coverage run -m unittest discover -v test && coverage report -m --include lib/*.py"
+	docker run -it $(VARIABLES) $(VOLUMES) $(ACCOUNT)/$(IMAGE):$(TAG) sh -c "coverage run -m unittest discover -v test && coverage report -m --include lib/*.py"
 
 run:
-	docker run -it --rm $(VOLUMES) $(VARIABLES) -p 127.0.0.1:$(PORT):$(PORT) -h $(IMAGE) $(ACCOUNT)/$(IMAGE):$(TAG)
+	docker run -it --rm $(VARIABLES) $(VOLUMES) -p 127.0.0.1:$(PORT):$(PORT) -h $(IMAGE) $(ACCOUNT)/$(IMAGE):$(TAG)
 
 push: build
 	docker push $(ACCOUNT)/$(IMAGE):$(TAG)
