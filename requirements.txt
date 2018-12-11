@@ -1,3 +1,3 @@
 connexion==1.5.2
-git+git://github.com/gaf3/pi-k8s-fitches-chore-redis@v0.2#egg=pi-k8s-fitches-chore-redis
+git+git://github.com/gaf3/pi-k8s-fitches-chore-redis@v0.3#egg=pi-k8s-fitches-chore-redis
 coverage==4.5.1

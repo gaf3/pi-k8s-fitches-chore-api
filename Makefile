@@ -1,9 +1,10 @@
 MACHINE=$(shell uname -m)
 IMAGE=pi-k8s-fitches-chore-api
-VERSION=0.4
+VERSION=0.5
 TAG="$(VERSION)-$(MACHINE)"
 ACCOUNT=gaf3
 NAMESPACE=fitches
+VARIABLES=-e REDIS_HOST='host.docker.internal' -e REDIS_PORT='6379' -e REDIS_CHANNEL='speech'
 VOLUMES=-v ${PWD}/openapi/:/opt/pi-k8s/openapi/ -v ${PWD}/templates.yaml.example/:/etc/pi-k8s/templates.yaml -v ${PWD}/settings.yaml.example/:/etc/pi-k8s/settings.yaml -v ${PWD}/lib/:/opt/pi-k8s/lib/ -v ${PWD}/test/:/opt/pi-k8s/test/ -v ${PWD}/bin/:/opt/pi-k8s/bin/
 PORT=6765
 
@@ -19,13 +20,13 @@ build:
 	docker build . --build-arg BASE=$(BASE) -t $(ACCOUNT)/$(IMAGE):$(TAG)
 
 shell:
-	docker run -it $(VOLUMES) $(ACCOUNT)/$(IMAGE):$(TAG) sh
+	docker run -it $(VOLUMES) $(VARIABLES) $(ACCOUNT)/$(IMAGE):$(TAG) sh
 
 test:
-	docker run -it $(VOLUMES) $(ACCOUNT)/$(IMAGE):$(TAG) sh -c "coverage run -m unittest discover -v test && coverage report -m --include lib/*.py"
+	docker run -it $(VOLUMES) $(VARIABLES) $(ACCOUNT)/$(IMAGE):$(TAG) sh -c "coverage run -m unittest discover -v test && coverage report -m --include lib/*.py"
 
 run:
-	docker run -it --rm -p $(PORT):$(PORT) -h $(IMAGE) $(ACCOUNT)/$(IMAGE):$(TAG)
+	docker run -it --rm $(VOLUMES) $(VARIABLES) -p 127.0.0.1:$(PORT):$(PORT) -h $(IMAGE) $(ACCOUNT)/$(IMAGE):$(TAG)
 
 push: build
 	docker push $(ACCOUNT)/$(IMAGE):$(TAG)

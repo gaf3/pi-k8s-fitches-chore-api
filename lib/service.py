@@ -81,14 +81,9 @@ def task_next(chore_id):
 
     return {"changed": apx.chore_redis.next(chore), "chore": chore}, 202
 
-def task_complete(chore_id, task_id):
+def task_action(chore_id, task_id, action):
 
     chore = apx.chore_redis.get(chore_id)
 
-    return {"changed": apx.chore_redis.complete(chore, task_id), "chore": chore}, 202
-
-def task_incomplete(chore_id, task_id):
-
-    chore = apx.chore_redis.get(chore_id)
-
-    return {"changed": apx.chore_redis.incomplete(chore, task_id), "chore": chore}, 202
+    if action in ["pause", "unpause", "skip", "unskip", "complete", "incomplete"]:
+        return {"changed": getattr(apx.chore_redis,action)(chore, task_id), "chore": chore}, 202

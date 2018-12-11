@@ -55,10 +55,6 @@ class MockChoreRedis(object):
         self.changed["complete"] = (chore["node"], index)
         return True
 
-    def incomplete(self, chore, index):
-
-        self.changed["incomplete"] = (chore["node"], index)
-        return True
 
 class TestService(unittest.TestCase):
 
@@ -355,7 +351,7 @@ class TestService(unittest.TestCase):
             "next": "bump"
         })
 
-    def test_chore_complete(self):
+    def test_chore_action(self):
 
         self.apx.chore_redis.chores = {
             "bump":  {
@@ -381,32 +377,4 @@ class TestService(unittest.TestCase):
 
         self.assertEqual(self.apx.chore_redis.changed, {
             "complete": ("bump", 1)
-        })
-
-    def test_chore_incomplete(self):
-
-        self.apx.chore_redis.chores = {
-            "bump":  {
-                "id": "bump",
-                "person": "dude",
-                "node": "bump",
-                "text": "get ready for school"
-            }
-        }
-
-        response = self.api.post("/chore/bump/task/1/incomplete")
-
-        self.assertEqual(response.json, {
-            "changed": True,
-            "chore": {
-                "id": "bump",
-                "person": "dude",
-                "node": "bump",
-                "text": "get ready for school"
-            }
-        })
-        self.assertEqual(response.status_code, 202)
-
-        self.assertEqual(self.apx.chore_redis.changed, {
-            "incomplete": ("bump", 1)
         })
