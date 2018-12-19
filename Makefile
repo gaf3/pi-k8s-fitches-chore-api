@@ -1,6 +1,6 @@
 MACHINE=$(shell uname -m)
 IMAGE=pi-k8s-fitches-chore-api
-VERSION=0.5
+VERSION=0.6
 TAG="$(VERSION)-$(MACHINE)"
 ACCOUNT=gaf3
 NAMESPACE=fitches
